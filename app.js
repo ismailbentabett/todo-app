@@ -23,46 +23,63 @@ function guidGenerator() {
     );
 }
 addbtn.addEventListener("click", function(e) {
-    console.log("addbtn clicked");
     e.preventDefault();
     let todo = form.value;
-    console.log(todo);
-    let todoObj = {
-        id: guidGenerator(),
-        todo: todo,
-        done: false,
-    };
-    todoArray.push(todoObj);
-    let todoItem = document.createElement("div");
-    todoItem.setAttribute("id", todoObj.id);
-    todoItem.innerHTML = `<div style=" display: flex;
-	justify-content: space-between; align-items : center;">
+    if (todo.length > 0) {
+        let todoObj = {
+            id: guidGenerator(),
+            todo: todo,
+            done: false,
+        };
+        todoArray.push(todoObj);
+        let todoItem = document.createElement("div");
+        todoItem.setAttribute("id", todoObj.id);
+        todoItem.innerHTML = `<div style=" display: flex;
+	justify-content: space-between; align-items : center; margin-top : 15px;">
 							<label>
 							  <input type="checkbox" />
 							  <span>${todoObj.todo}</span>
 							</label>
-							<a
-							class=" deletebtn"
-							><i class=" material-icons" style="cursor : pointer;">delete</i></a
-						  >
-
+                            <a class="waves-effect waves-teal btn-flat deletebtn " id="deletebtn"
+                            ><i class="btn material-icons" style="cursor : pointer;">delete </i></a>
 														  </div>`;
 
-    todolist.appendChild(todoItem);
-    document.form.value = "";
-});
+        todolist.appendChild(todoItem);
+        //clear todo input
+        todo = "";
+    }
 
-let deletebtn = document.querySelector(".deletebtn");
-deletebtn.addEventListener("click", function(e) {
-    console.log("deletebtn clicked");
-    e.preventDefault();
-    let todoItem = e.target.parentElement.parentElement;
-    let todoId = todoItem.id;
-    console.log(todoId);
-    todoArray.forEach(function(item, index) {
-        if (item.id === todoId) {
+    //create the delete button every delete button has the same id as the element it is attached to
+    let deletebtn = document.querySelectorAll(".deletebtn");
+    deletebtn.forEach(function(btn) {
+        btn.addEventListener("click", function(e) {
+            e.preventDefault();
+            let id = btn.parentElement.parentElement.id;
+            let index = todoArray.findIndex(function(todo) {
+                return todo.id === id;
+            });
             todoArray.splice(index, 1);
-        }
+            btn.parentElement.parentElement.remove();
+        });
     });
-    todoItem.remove();
+    //create the checkbox every checkbox has the same id as the element it is attached to and when clicked it switches to the opposite state
+    let checkbox = document.querySelectorAll("input[type=checkbox]");
+    checkbox.forEach(function(check) {
+        check.addEventListener("click", function(e) {
+            let id = check.parentElement.parentElement.parentElement.id;
+            let index = todoArray.findIndex(function(todo) {
+                return todo.id === id;
+            });
+
+            todoArray[index].done = !todoArray[index].done;
+
+            if (todoArray[index].done === true) {
+                check.nextElementSibling.style.textDecoration = "line-through";
+                console.log(check);
+            } else {
+                console.log("not done");
+                check.nextElementSibling.style.textDecoration = "none";
+            }
+        });
+    });
 });
