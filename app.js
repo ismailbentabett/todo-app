@@ -45,6 +45,8 @@ addbtn.addEventListener("click", function(e) {
 														  </div>`;
 
         todolist.appendChild(todoItem);
+        //clear todo input
+        todo = "";
     }
 
     //create the delete button every delete button has the same id as the element it is attached to
