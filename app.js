@@ -38,15 +38,13 @@ addbtn.addEventListener("click", function(e) {
 	justify-content: space-between; align-items : center; margin-top : 15px;">
 							<label>
 							  <input type="checkbox" />
-							  <span>${todoObj.todo}</span>
+							  <span class="">${todoObj.todo}</span>
 							</label>
                             <a class="waves-effect waves-teal btn-flat deletebtn " id="deletebtn"
                             ><i class="btn material-icons" style="cursor : pointer;">delete </i></a>
 														  </div>`;
 
         todolist.appendChild(todoItem);
-        //clear todo input
-        todo = "";
     }
 
     //create the delete button every delete button has the same id as the element it is attached to
